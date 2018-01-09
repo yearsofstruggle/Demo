@@ -11,6 +11,9 @@ import {
 import { Toast } from 'teaset';
 
 export default class InputScreen extends Component {
+    static  navigationOptions = ({ navigation, screenProps }) => ({
+        headerTitle:'身份证'
+    });
 
     state = {
         numid : '',
@@ -23,7 +26,7 @@ export default class InputScreen extends Component {
         //     return;
         // }
         let { navigate } = this.props.navigation;
-        navigate('PictureScreen');
+        navigate('PicScreen');
     };
 
     render() {

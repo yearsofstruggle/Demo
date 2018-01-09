@@ -16,7 +16,8 @@ export default class PictureScreen extends Component {
                        isGo = false;
                        let {goBack} = navigation;
                        goBack();
-                   }}>返回</Text>
+                   }}>返回</Text>,
+        headerTitle:'摄像'
     });
 
     componentDidMount() {
