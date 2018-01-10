@@ -8,11 +8,11 @@ import {
     Keyboard
 } from 'react-native';
 
-import { Toast } from 'teaset';
+import { Toast, Label, Button, Input } from 'teaset';
 
 export default class InputScreen extends Component {
     static  navigationOptions = ({ navigation, screenProps }) => ({
-        headerTitle:'身份证'
+        headerTitle : '身份证'
     });
 
     state = {
@@ -33,22 +33,20 @@ export default class InputScreen extends Component {
         return (
             <View style={styles.container}>
                 <View style={styles.inputWrapper}>
-                    <Text style={styles.leftText}>身份证号</Text>
-                    <TextInput
+                    <Label style={styles.leftText} text={'身份证号'} />
+                    <Input
                         style={styles.input}
-                        underlineColorAndroid="transparent"
                         value={this.state.numid}
                         placeholder='请填写身份证号'
                         maxLength={18}
                         placeholderColor='#999'
-                        onChangeText={(text)=>{
-                            this.setState({numid:text})
-                        }}
+                        onChangeText={text => this.setState({numid: text})}
                     />
                 </View>
-                <TouchableOpacity style={styles.submitBtn} activeOpacity={0.8} onPress={()=>this.btnEvent()}>
-                    <Text style={styles.submitText}>提交</Text>
-                </TouchableOpacity>
+                <Button style={styles.submitBtn}
+                        onPress={()=>this.btnEvent()}
+                        title={'提交'}
+                        titleStyle={styles.submitText}/>
             </View>
         );
     }
@@ -65,8 +63,8 @@ const styles = StyleSheet.create({
         marginLeft : 15,
         marginRight : 15,
         height : 44,
-        justifyContent:'center',
-        alignItems:'center'
+        justifyContent : 'center',
+        alignItems : 'center'
     },
     leftText : {
         fontSize : 15,

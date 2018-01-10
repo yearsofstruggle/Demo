@@ -6,25 +6,29 @@ import {
     Image,
 } from 'react-native';
 
-import { NavigationActions } from 'react-navigation'
+import { NavigationActions } from 'react-navigation';
+import { Button } from 'teaset';
 
 export default class ResultScreen extends Component {
+
     static navigationOptions = ({ navigation, screenProps }) => ({
         header : null
     });
 
+    btnEvent = () => {
+        const resetAction = NavigationActions.reset({
+            index: 0,
+            actions: [
+                NavigationActions.navigate({ routeName: 'InputScreen'})
+            ]
+        })
+        this.props.navigation.dispatch(resetAction)
+    }
+
     render() {
         return (
             <View style={styles.container}>
-                <Text style={{height:44}} onPress={()=>{
-                    const resetAction = NavigationActions.reset({
-                         index: 0,
-                         actions: [
-                            NavigationActions.navigate({ routeName: 'InputScreen'})
-                         ]
-                    })
-                    this.props.navigation.dispatch(resetAction)
-                }}>提交成功返回</Text>
+                <Button style={{height:44, borderColor:'transparent'}} onPress={()=>this.btnEvent()} titleStyle={styles.btnText} title={'提交成功返回'}/>
             </View>
         );
     }
@@ -37,4 +41,7 @@ const styles = StyleSheet.create({
         justifyContent : 'center',
         alignItems : 'center',
     },
+    btnText:{
+        color:'black',
+    }
 });

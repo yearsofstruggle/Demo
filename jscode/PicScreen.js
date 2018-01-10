@@ -6,32 +6,23 @@ import {
     Image,
 } from 'react-native';
 import Camera from 'react-native-camera';
-import { Toast } from 'teaset';
+import { Toast, Label, Button } from 'teaset';
 
 export default class PicScreen extends Component {
     static  navigationOptions = ({ navigation, screenProps }) => ({
-        headerLeft : <Text style={{marginLeft:10}} onPress={()=>{
-                       let {goBack} = navigation;
-                       goBack();
-                   }}>返回</Text>,
-        headerTitle:'拍照'
+        headerLeft : <Button style={{marginLeft:10,borderColor:'transparent'}}
+                             onPress={()=>{
+                                  let {goBack} = navigation;
+                                  goBack();
+                             }}
+                             titleStyle={{color:'black'}}
+                             title={'返回'}/>,
+        headerTitle : '拍照'
     });
 
     state = {
-        cameraType : Camera.constants.Type.back,
         imagePath : '',
     }
-
-    //切换前后摄像头
-    switchCamera() {
-        var state = this.state;
-        if (state.cameraType === Camera.constants.Type.back) {
-            state.cameraType = Camera.constants.Type.front;
-        } else {
-            state.cameraType = Camera.constants.Type.back;
-        }
-        this.setState(state);
-    };
 
     takePicture = () => {
         let { navigate } = this.props.navigation;
@@ -50,12 +41,12 @@ export default class PicScreen extends Component {
     renderContainer = () => {
         if (this.state.imagePath) {
             return <View style={{flex:1}}>
-                    <Image style={{flex:1}} source={{ uri:this.state.imagePath }}/>
-                    <Text style={[styles.button,{position:'absolute'}]} onPress={()=>{
+                <Image style={{flex:1}} source={{ uri:this.state.imagePath }}/>
+                <Button style={[styles.button,{position:'absolute'}]} onPress={()=>{
                             let { navigate } = this.props.navigation;
                             navigate('PictureScreen');
-                        }}>[上传]</Text>
-                </View>
+                        }} title={'[上传]'} />
+            </View>
         }
         return (
             <View style={{flex:1}}>
@@ -65,10 +56,9 @@ export default class PicScreen extends Component {
                     }}
                     style={styles.preview}
                     captureTarget={Camera.constants.CaptureTarget.temp}
-                    type={this.state.cameraType}
+                    type={Camera.constants.Type.front}
                     aspect={Camera.constants.Aspect.fill}>
-                    <Text style={styles.button} onPress={()=>this.switchCamera()}>[切换摄像头]</Text>
-                    <Text style={styles.button} onPress={()=>this.takePicture()}>[拍照]</Text>
+                    <Button style={styles.button} onPress={()=>this.takePicture()} title={'[拍照]'}/>
                 </Camera>
             </View>
         )

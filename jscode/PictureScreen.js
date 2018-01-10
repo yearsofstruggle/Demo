@@ -7,17 +7,20 @@ import {
 } from 'react-native';
 
 import Camera from 'react-native-camera';
-import { Toast } from 'teaset';
+import { Toast, Button } from 'teaset';
 let isGo = true;
 
 export default class PictureScreen extends Component {
     static  navigationOptions = ({ navigation, screenProps }) => ({
-        headerLeft : <Text style={{marginLeft:10}} onPress={()=>{
-                       isGo = false;
-                       let {goBack} = navigation;
-                       goBack();
-                   }}>返回</Text>,
-        headerTitle:'摄像'
+        headerLeft : <Button style={{marginLeft:10, borderColor:'transparent'}}
+                             onPress={()=>{
+                                  isGo = false;
+                                  let {goBack} = navigation;
+                                  goBack();
+                             }}
+                             titleStyle={{color:'black'}}
+                             title={'返回'}/>,
+        headerTitle : '摄像'
     });
 
     componentDidMount() {
