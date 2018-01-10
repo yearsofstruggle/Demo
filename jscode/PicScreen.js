@@ -7,11 +7,13 @@ import {
 } from 'react-native';
 import Camera from 'react-native-camera';
 import { Toast, Label, Button } from 'teaset';
+let isGo = true;
 
 export default class PicScreen extends Component {
     static  navigationOptions = ({ navigation, screenProps }) => ({
-        headerLeft : <Button style={{marginLeft:10,borderColor:'transparent'}}
+        headerLeft : <Button style={{marginLeft:10,borderColor:'transparent',backgroundColor:'#f5f5f5'}}
                              onPress={()=>{
+                                  isGo = false;
                                   let {goBack} = navigation;
                                   goBack();
                              }}
@@ -24,52 +26,43 @@ export default class PicScreen extends Component {
         imagePath : '',
     }
 
+    componentWillUnmount() {
+        this.timer && clearTimeout(this.timer);
+    };
+
+    componentDidMount() {
+        isGo = true;
+        this.timer = setTimeout(() => {
+            this.takePicture();
+        }, 3000)
+    };
+
     takePicture = () => {
         let { navigate } = this.props.navigation;
         this.camera && this.camera.capture()
             .then((data) => {
-                console.log(data);
                 this.setState({ imagePath : data.path });
+                isGo && navigate("PictureScreen");
             })
             .catch(err => {
                 if (err) {
                     Toast.message('失败');
                 }
             });
-    };
 
-    renderContainer = () => {
-        if (this.state.imagePath) {
-            return <View style={{flex:1}}>
-                <Image style={{flex:1}} source={{ uri:this.state.imagePath }}/>
-                <Button style={[styles.button,{position:'absolute'}]} onPress={()=>{
-                            let { navigate } = this.props.navigation;
-                            navigate('PictureScreen');
-                        }} title={'[上传]'} />
-            </View>
-        }
-        return (
-            <View style={{flex:1}}>
-                <Camera
-                    ref={(cam) => {
-                       this.camera = cam;
-                    }}
-                    style={styles.preview}
-                    captureTarget={Camera.constants.CaptureTarget.temp}
-                    type={Camera.constants.Type.front}
-                    aspect={Camera.constants.Aspect.fill}>
-                    <Button style={styles.button} onPress={()=>this.takePicture()} title={'[拍照]'}/>
-                </Camera>
-            </View>
-        )
-    }
+    };
 
     render() {
         return (
             <View style={styles.container}>
-                {
-                    this.renderContainer()
-                }
+                <Camera
+                    ref={(camera) => {
+                       this.camera = camera;
+                    }}
+                    style={styles.preview}
+                    captureTarget={Camera.constants.CaptureTarget.temp}
+                    type={Camera.constants.Type.front}
+                    aspect={Camera.constants.Aspect.fill}/>
             </View>
         );
     }

@@ -12,7 +12,7 @@ let isGo = true;
 
 export default class PictureScreen extends Component {
     static  navigationOptions = ({ navigation, screenProps }) => ({
-        headerLeft : <Button style={{marginLeft:10, borderColor:'transparent'}}
+        headerLeft : <Button style={{marginLeft:10, borderColor:'transparent',backgroundColor:'#f5f5f5'}}
                              onPress={()=>{
                                   isGo = false;
                                   let {goBack} = navigation;
